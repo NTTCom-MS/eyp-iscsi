@@ -15,14 +15,14 @@ define iscsi::discovery(
   if($debug)
   {
     file { "/tmp/discovery-${iface}":
-      ensure => 'present',
+      ensure  => 'present',
       content => template("${module_name}/discovery.erb"),
     }
   }
 
   exec { "interface iscsi ${iface} ${portals}":
     command => template("${module_name}/discovery.erb"),
-    unless  => "iscsiadm -m session",
+    unless  => 'iscsiadm -m session',
     require => Class['iscsi::service'],
   }
 
