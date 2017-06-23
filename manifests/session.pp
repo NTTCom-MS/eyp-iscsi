@@ -2,7 +2,7 @@ define iscsi::session(
                         $iface,
                         $portals,
                         $target = $name,
-                        $debug = false,
+                        $debug  = false,
                       ) {
 
   Exec{
@@ -19,11 +19,15 @@ define iscsi::session(
     }
   }
 
-  #TODO: fer per iface
+  Exec <| tag == 'eyp-iscsi-discovery' |>
+
+  ->
+
   exec { "interface iscsi ${target} ${iface} ${portals}":
     command => template("${module_name}/session/execsession.erb"),
     unless  => "iscsiadm -m session -P 1 | grep \"Iface Name\" | grep ${iface}",
-    require => [ Class['iscsi::service'], Iscsi::Interface[$iface] ],
+    require => Class['iscsi::service'],
+    tag     => 'eyp-iscsi-session',
   }
 
 }
