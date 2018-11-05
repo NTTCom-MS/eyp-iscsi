@@ -1,7 +1,3 @@
-# == Class: iscsi
-#
-# === iscsi::install documentation
-#
 class iscsi::install inherits iscsi {
 
   if($iscsi::multipath)
@@ -28,9 +24,9 @@ class iscsi::install inherits iscsi {
     order => '99',
   }
 
-  # net.ipv4.conf.all.rp_filter = 3
+  # net.ipv4.conf.all.rp_filter = 2
   sysctl::set { 'net.ipv4.conf.all.rp_filter':
-    value => '3',
+    value => '2',
     order => '99',
   }
 
